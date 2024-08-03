@@ -1,16 +1,34 @@
 extends Node2D
 
-@onready var PlatterTop : RigidBody2D = $PlatterTop
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	remove_lid()
+@onready var Platter : Node2D = $PlatterScene
+@onready var WiggleTimer : Timer = $WiggleTimer
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+var stop_point : int = 10
+var stop_point_reached : bool = false
+var wiggle_count : int = 0
+
+
 func _process(delta):
-	pass
+	check_stop_point()
+	
+	if stop_point_reached:
+		Platter.set_state(Platter.MoveState.floating)
+		
+	else:
+		Platter.set_state(Platter.MoveState.moving)
+		
+		
+func check_stop_point():
+	if Platter.position.y <= stop_point:
+		stop_point_reached = true
+	
 
-
-func remove_lid():
-	PlatterTop.apply_impulse(Vector2(20,-20) * 20)
+func _on_wiggle_timer_timeout():
+	Platter.wiggle()
+	if wiggle_count < 3:
+		wiggle_count += 1
+		WiggleTimer.start(2)
+	else:
+		Platter.remove_lid()

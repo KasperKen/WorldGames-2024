@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://bohdvcknrsnub"]
+
+[ext_resource type="Script" path="res://PlatterScene.gd" id="1_20wkb"]
+[ext_resource type="Texture2D" uid="uid://0pvrtfe26qe2" path="res://assets/platter_top.png" id="1_cnagi"]
+[ext_resource type="Texture2D" uid="uid://ckk75r8p0tsv1" path="res://assets/platter_bottom.png" id="1_tuswi"]
+[ext_resource type="Texture2D" uid="uid://bwv3w8myu04ip" path="res://assets/BlueGuy2.png" id="2_4e1ju"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4xck3"]
+size = Vector2(278, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xl6a"]
+size = Vector2(278, 9)
+
+[node name="PlatterScene" type="CharacterBody2D"]
+script = ExtResource("1_20wkb")
+
+[node name="PlatterBottom" type="StaticBody2D" parent="."]
+position = Vector2(6, 64)
+
+[node name="PlatterBottomSprite" type="Sprite2D" parent="PlatterBottom"]
+position = Vector2(6, 0)
+scale = Vector2(4, 4)
+texture = ExtResource("1_tuswi")
+
+[node name="PlatterBottomCollission" type="CollisionShape2D" parent="PlatterBottom"]
+position = Vector2(6, 43.3333)
+shape = SubResource("RectangleShape2D_4xck3")
+
+[node name="BlueGuySprite" type="Sprite2D" parent="."]
+position = Vector2(18, 10)
+texture = ExtResource("2_4e1ju")
+
+[node name="PlatterTop" type="RigidBody2D" parent="."]
+position = Vector2(14, 3)
+
+[node name="PlatterTopSprite" type="Sprite2D" parent="PlatterTop"]
+position = Vector2(-0.666687, 0.666656)
+scale = Vector2(4, 4)
+texture = ExtResource("1_cnagi")
+
+[node name="PlatterTopCollission" type="CollisionShape2D" parent="PlatterTop"]
+position = Vector2(-1, 90)
+shape = SubResource("RectangleShape2D_3xl6a")
