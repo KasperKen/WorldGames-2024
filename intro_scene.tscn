@@ -1,12 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://cd8j6rfxdolha"]
+[gd_scene load_steps=5 format=3 uid="uid://cd8j6rfxdolha"]
 
 [ext_resource type="Script" path="res://IntroScene.gd" id="1_i2er0"]
 [ext_resource type="PackedScene" uid="uid://bohdvcknrsnub" path="res://PlatterScene.tscn" id="2_1o03a"]
 [ext_resource type="Script" path="res://Camera.gd" id="2_1r7ol"]
+[ext_resource type="Resource" uid="uid://lt2yk44acg4s" path="res://dialogue/intro.dialogue" id="2_godk4"]
 
 [node name="IntroScene" type="Node2D"]
 position = Vector2(299, 161)
 script = ExtResource("1_i2er0")
+dialogue_resource = ExtResource("2_godk4")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -17,7 +19,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0885599, 0.0885599, 0.0885599, 1)
+color = Color(0, 0, 0, 1)
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(22, 19)
@@ -25,11 +27,16 @@ position_smoothing_enabled = true
 script = ExtResource("2_1r7ol")
 
 [node name="PlatterScene" parent="." instance=ExtResource("2_1o03a")]
-position = Vector2(-1, 342)
+position = Vector2(6, 342)
 
 [node name="WiggleTimer" type="Timer" parent="."]
 wait_time = 8.0
 one_shot = true
 autostart = true
 
+[node name="DialogueTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
 [connection signal="timeout" from="WiggleTimer" to="." method="_on_wiggle_timer_timeout"]
+[connection signal="timeout" from="DialogueTimer" to="." method="_on_dialogue_timer_timeout"]
