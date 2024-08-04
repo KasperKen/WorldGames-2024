@@ -50,4 +50,4 @@ func _on_lid_removed():
 
 
 func _on_dialogue_timer_timeout():
-	DialogueManager.show_example_dialogue_balloon(dialogue_resource, "intro")
+	DialogueManager.show_dialogue_balloon(dialogue_resource, "intro")
