@@ -10,5 +10,5 @@ Katering: You must go to the land of snails and milk to compete in the prestigio
 Katering: Only then can you prove yourself worthy.
 Katering: There are many trials ahead, and the road will be dangerous.
 Katering: But I will grant you this gift to aid you on your travels.
-
+set GlobalDialogue.x_status = true
 => END

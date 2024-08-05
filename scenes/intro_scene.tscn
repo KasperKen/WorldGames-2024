@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cd8j6rfxdolha"]
 
-[ext_resource type="Script" path="res://IntroScene.gd" id="1_i2er0"]
-[ext_resource type="PackedScene" uid="uid://bohdvcknrsnub" path="res://PlatterScene.tscn" id="2_1o03a"]
-[ext_resource type="Script" path="res://Camera.gd" id="2_1r7ol"]
+[ext_resource type="Script" path="res://scenes/IntroScene.gd" id="1_i2er0"]
+[ext_resource type="PackedScene" uid="uid://bohdvcknrsnub" path="res://scenes/PlatterScene.tscn" id="2_1o03a"]
 [ext_resource type="Resource" uid="uid://lt2yk44acg4s" path="res://dialogue/intro.dialogue" id="2_godk4"]
+[ext_resource type="Script" path="res://scenes/Camera.gd" id="3_cjuo0"]
 
 [node name="IntroScene" type="Node2D"]
 position = Vector2(299, 161)
@@ -17,6 +17,7 @@ layer = -1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
@@ -24,10 +25,10 @@ color = Color(0, 0, 0, 1)
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(22, 19)
 position_smoothing_enabled = true
-script = ExtResource("2_1r7ol")
+script = ExtResource("3_cjuo0")
 
 [node name="PlatterScene" parent="." instance=ExtResource("2_1o03a")]
-position = Vector2(6, 342)
+position = Vector2(29, 344)
 
 [node name="WiggleTimer" type="Timer" parent="."]
 wait_time = 8.0

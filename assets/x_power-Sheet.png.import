@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpih0ibmwjagi"
-path="res://.godot/imported/BlueGuy.png-5f4c4a7028122c33e6f78de54e34a02f.ctex"
+uid="uid://do7nqykro803l"
+path="res://.godot/imported/x_power-Sheet.png-51821f952cae8adbf8bc51aafd97e8c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/BlueGuy.png"
-dest_files=["res://.godot/imported/BlueGuy.png-5f4c4a7028122c33e6f78de54e34a02f.ctex"]
+source_file="res://assets/x_power-Sheet.png"
+dest_files=["res://.godot/imported/x_power-Sheet.png-51821f952cae8adbf8bc51aafd97e8c0.ctex"]
 
 [params]
 

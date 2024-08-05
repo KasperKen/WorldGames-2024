@@ -1,16 +1,18 @@
-extends CharacterBody2D
+extends Node2D
 
 
 signal lid_removed
-
-
-@onready var PlatterTop : RigidBody2D = $PlatterTop
 
 
 enum MoveState{
 	floating,
 	moving
 }
+
+
+@onready var PlatterTop : RigidBody2D = $PlatterTop
+@onready var XPower : PackedScene = load("res://scenes/x_power.tscn")
+@onready var XSpawnPoint : Marker2D = $XSpawnPoint
 
 
 @export var float_speed : int = 1
@@ -23,14 +25,9 @@ var current_y_speed : int = default_y_speed
 var current_x_speed : int = default_x_speed
 var top_hover_limit : int = -10
 var bottom_hover_limit : int = 10
+var x_spawned : bool = false
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
 	var velocity : Vector2
@@ -52,7 +49,15 @@ func _process(delta):
 			dampen_factor = 5
 			velocity = Vector2(current_x_speed, current_y_speed) / dampen_factor
 
-	move_and_collide(velocity)
+	translate(velocity)
+
+
+func spawn_x_power():
+	print_debug("spawining x")
+	var x_spawn = XPower.instantiate()
+	x_spawn.position = XSpawnPoint.position
+	add_child(x_spawn)
+	x_spawned = true
 
 
 func remove_lid():
@@ -66,3 +71,4 @@ func wiggle():
 
 func set_state(new_state):
 	move_state = new_state
+

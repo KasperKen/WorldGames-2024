@@ -1,0 +1,105 @@
+[gd_scene load_steps=10 format=3 uid="uid://caitcei7ynyse"]
+
+[ext_resource type="Shader" path="res://scenes/xflash.gdshader" id="1_s7ync"]
+[ext_resource type="Texture2D" uid="uid://do7nqykro803l" path="res://assets/x_power-Sheet.png" id="2_n2rwx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fc1xf"]
+shader = ExtResource("1_s7ync")
+shader_parameter/flash_color = Color(1, 1, 1, 0)
+shader_parameter/flash_value = 1.0
+
+[sub_resource type="Animation" id="Animation_xglyc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("XPower/XSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_edaei"]
+resource_name = "hover"
+length = 1.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("XPower/XSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f2j5m"]
+_data = {
+"RESET": SubResource("Animation_xglyc"),
+"hover": SubResource("Animation_edaei")
+}
+
+[sub_resource type="Animation" id="Animation_ioo3j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("XSprite:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.7),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_kw31b"]
+resource_name = "flash"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("XSprite:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6, 0.8, 1.1, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.8, 0.5, 0.2, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d5qo0"]
+_data = {
+"RESET": SubResource("Animation_ioo3j"),
+"flash": SubResource("Animation_kw31b")
+}
+
+[node name="XPower" type="Node2D"]
+
+[node name="XSprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_fc1xf")
+texture = ExtResource("2_n2rwx")
+hframes = 10
+frame = 9
+
+[node name="XAnimation" type="AnimationPlayer" parent="."]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_f2j5m")
+}
+autoplay = "hover"
+
+[node name="XFlash" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_d5qo0")
+}
+autoplay = "flash"

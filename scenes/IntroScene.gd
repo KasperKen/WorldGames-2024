@@ -19,7 +19,10 @@ func _ready():
 
 func _process(delta):
 	check_stop_point()
-
+	
+	if GlobalDialogue.x_status and not Platter.x_spawned:
+		Platter.spawn_x_power()
+	
 	if stop_point_reached:
 		Platter.set_state(Platter.MoveState.floating)
 
