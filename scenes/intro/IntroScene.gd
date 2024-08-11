@@ -11,7 +11,7 @@ signal scene_ended
 @onready var PlatterContainer : Node2D = $PlatterScene/PlatterContainer
 @onready var WiggleTimer : Timer = $WiggleTimer
 @onready var DialogueTimer : Timer = $DialogueTimer
-@onready var XPower : PackedScene = load("res://scenes/x_power.tscn")
+@onready var XPower : PackedScene = load("res://scenes/x_power/x_power.tscn")
 @onready var XSpawnPoint : Marker2D = $PlatterScene/XSpawnPoint
 @onready var ScreenCenter : Marker2D = $ScreenCenter
 @onready var EndSceneTimer : Timer = $EndSceneTimer
@@ -23,7 +23,7 @@ var wiggle_count : int = 0
 var entities_despawned : bool = false
 var x_spawned : bool = false
 var spawned_x_scene
-var end_scene_started = false
+var end_scene_timer_started = false
 
 func _ready():
 	PlatterScene.lid_removed.connect(_on_lid_removed)
@@ -44,13 +44,12 @@ func _process(_delta):
 		var target_position = ScreenCenter.position
 		var x_direction : Vector2 = (target_position - spawned_x_scene.position).normalized()
 		var x_velocity = x_direction * x_speed
-		
+
 		if spawned_x_scene.position.distance_to(target_position) > 1:
 			spawned_x_scene.position += x_velocity
-		
+
 		else:
-			if not end_scene_started:
-				end_scene() 
+			start_end_scene_timer() 
 
 
 	if stop_point_reached:
@@ -82,11 +81,10 @@ func scale_x(x_size, y_size, time):
 	tween.tween_property(spawned_x_scene, "scale", Vector2(x_size, y_size), time)
 
 
-func end_scene():
-	end_scene_started = true
-	var tween = create_tween()
-	tween.tween_property(spawned_x_scene, "modulate", Color.TRANSPARENT, 1.0)
-	EndSceneTimer.start()
+func start_end_scene_timer():
+	if not end_scene_timer_started:
+		end_scene_timer_started = true
+		EndSceneTimer.start()
 
 
 func _on_wiggle_timer_timeout():
@@ -112,6 +110,7 @@ func _on_dialogue_timer_timeout():
 
 
 func _on_end_scene_timer_timeout():
-	print_debug("end scene timer timeout")
-	scale_x(0, 0, 0.5)
-	pass
+	var tween = create_tween()
+	tween.tween_property(spawned_x_scene, "modulate", Color.TRANSPARENT, 1.0)
+	await(tween.finished)
+	#end scene

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cd8j6rfxdolha"]
 
-[ext_resource type="Script" path="res://scenes/IntroScene.gd" id="1_i2er0"]
-[ext_resource type="PackedScene" uid="uid://bohdvcknrsnub" path="res://scenes/PlatterScene.tscn" id="2_1o03a"]
+[ext_resource type="Script" path="res://scenes/intro/IntroScene.gd" id="1_i2er0"]
+[ext_resource type="PackedScene" uid="uid://bohdvcknrsnub" path="res://scenes/platter/PlatterScene.tscn" id="2_1o03a"]
 [ext_resource type="Resource" uid="uid://lt2yk44acg4s" path="res://dialogue/intro.dialogue" id="2_godk4"]
 [ext_resource type="Script" path="res://scenes/Camera.gd" id="3_cjuo0"]
 
@@ -43,6 +43,7 @@ one_shot = true
 position = Vector2(8, 56)
 
 [node name="EndSceneTimer" type="Timer" parent="."]
+wait_time = 1.5
 
 [connection signal="timeout" from="WiggleTimer" to="." method="_on_wiggle_timer_timeout"]
 [connection signal="timeout" from="DialogueTimer" to="." method="_on_dialogue_timer_timeout"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://caitcei7ynyse"]
 
-[ext_resource type="Script" path="res://scenes/x_power.gd" id="1_8nos8"]
+[ext_resource type="Script" path="res://scenes/x_power/x_power.gd" id="1_8nos8"]
 [ext_resource type="Texture2D" uid="uid://do7nqykro803l" path="res://assets/x_power-Sheet.png" id="2_n2rwx"]
 [ext_resource type="Texture2D" uid="uid://dcpq2hydctxan" path="res://assets/x_smoke_sheet.png" id="3_fltrd"]
 [ext_resource type="AudioStream" uid="uid://cobpfyyfs8b04" path="res://assets/sfx/magical_whoosh.wav" id="4_r7jyx"]
