@@ -1,56 +1,117 @@
 extends Node2D
 
 
+signal scene_ended
+
+
 @export var dialogue_resource : DialogueResource
 
 
-@onready var Platter : Node2D = $PlatterScene
+@onready var PlatterScene : Node2D = $PlatterScene
+@onready var PlatterContainer : Node2D = $PlatterScene/PlatterContainer
 @onready var WiggleTimer : Timer = $WiggleTimer
 @onready var DialogueTimer : Timer = $DialogueTimer
+@onready var XPower : PackedScene = load("res://scenes/x_power.tscn")
+@onready var XSpawnPoint : Marker2D = $PlatterScene/XSpawnPoint
+@onready var ScreenCenter : Marker2D = $ScreenCenter
+@onready var EndSceneTimer : Timer = $EndSceneTimer
+
 
 var stop_point : int = -10
 var stop_point_reached : bool = false
 var wiggle_count : int = 0
-
+var entities_despawned : bool = false
+var x_spawned : bool = false
+var spawned_x_scene
+var end_scene_started = false
 
 func _ready():
-	Platter.lid_removed.connect(_on_lid_removed)
+	PlatterScene.lid_removed.connect(_on_lid_removed)
 
 
-func _process(delta):
+func _process(_delta):
 	check_stop_point()
-	
-	if GlobalDialogue.x_status and not Platter.x_spawned:
-		Platter.spawn_x_power()
-	
+
+	if GlobalDialogue.intro_dialogue_finished and not x_spawned:
+		spawn_x_power()
+		GlobalDialogue.set_state(GlobalDialogue.DialogueState.explain_x)
+		DialogueTimer.start()
+
+	if GlobalDialogue.explain_x_dialogue_finished and not entities_despawned:
+		despawn_platter()
+		scale_x(3, 3, 2.0)
+		var x_speed = 1
+		var target_position = ScreenCenter.position
+		var x_direction : Vector2 = (target_position - spawned_x_scene.position).normalized()
+		var x_velocity = x_direction * x_speed
+		
+		if spawned_x_scene.position.distance_to(target_position) > 1:
+			spawned_x_scene.position += x_velocity
+		
+		else:
+			if not end_scene_started:
+				end_scene() 
+
+
 	if stop_point_reached:
-		Platter.set_state(Platter.MoveState.floating)
+		PlatterScene.set_state(PlatterScene.MoveState.floating)
 
 	else:
-		Platter.set_state(Platter.MoveState.moving)
+		PlatterScene.set_state(PlatterScene.MoveState.moving)
 
 
 func check_stop_point():
-	if Platter.position.y <= stop_point:
+	if PlatterScene.position.y <= stop_point:
 		stop_point_reached = true
 
 
+func spawn_x_power():
+	spawned_x_scene = XPower.instantiate()
+	spawned_x_scene.position = XSpawnPoint.position
+	PlatterScene.add_child(spawned_x_scene)
+	x_spawned = true
+
+
+func despawn_platter():
+	var tween = create_tween()
+	tween.tween_property(PlatterContainer, "modulate", Color.TRANSPARENT, 1.0)
+
+
+func scale_x(x_size, y_size, time):
+	var tween = create_tween()
+	tween.tween_property(spawned_x_scene, "scale", Vector2(x_size, y_size), time)
+
+
+func end_scene():
+	end_scene_started = true
+	var tween = create_tween()
+	tween.tween_property(spawned_x_scene, "modulate", Color.TRANSPARENT, 1.0)
+	EndSceneTimer.start()
+
+
 func _on_wiggle_timer_timeout():
-	Platter.wiggle()
 	if wiggle_count < 3:
+		PlatterScene.wiggle()
 		wiggle_count += 1
 		WiggleTimer.start(2)
 	else:
-		Platter.remove_lid()
+		PlatterScene.remove_lid()
 
 
 func _on_lid_removed():
 	stop_point = -50
 	stop_point_reached = false
-	Platter.top_hover_limit = -60
-	Platter.bottom_hover_limit = -45
+	PlatterScene.top_hover_limit = -60
+	PlatterScene.bottom_hover_limit = -45
 	DialogueTimer.start()
 
 
 func _on_dialogue_timer_timeout():
-	DialogueManager.show_dialogue_balloon(dialogue_resource, "intro")
+	var dialogue_title = GlobalDialogue.get_state()
+	DialogueManager.show_dialogue_balloon(dialogue_resource, dialogue_title)
+
+
+func _on_end_scene_timer_timeout():
+	print_debug("end scene timer timeout")
+	scale_x(0, 0, 0.5)
+	pass

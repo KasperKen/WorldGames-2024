@@ -16,7 +16,7 @@ func _process(delta):
 		shake_strength = lerpf(shake_strength,0,shake_fade * delta)
 		offset = random_offset()
 
-func camera_shake(strength, fade):
+func camera_shake(strength, _fade):
 	shake_strength = strength
 	
 func random_offset():

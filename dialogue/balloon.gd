@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+
 ## The action to use for advancing the dialogue
 @export var next_action: StringName = &"ui_accept"
 
@@ -10,6 +11,8 @@ extends CanvasLayer
 @onready var character_label: RichTextLabel = %CharacterLabel
 @onready var dialogue_label: DialogueLabel = %DialogueLabel
 @onready var responses_menu: DialogueResponsesMenu = %ResponsesMenu
+@onready var DialogueSFX: AudioStreamPlayer = $DialogueSFX
+
 
 ## The dialogue resource
 var resource: DialogueResource
@@ -154,3 +157,10 @@ func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
 
 
 #endregion
+
+
+#Custom Signals
+func _on_dialogue_label_spoke(letter, _letter_index, _speed):
+	if letter not in [".", " "]:
+		DialogueSFX.pitch_scale = randf_range(0.4, 0.8)
+		DialogueSFX.play()

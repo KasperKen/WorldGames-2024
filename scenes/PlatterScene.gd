@@ -10,12 +10,12 @@ enum MoveState{
 }
 
 
-@onready var PlatterTop : RigidBody2D = $PlatterTop
-@onready var XPower : PackedScene = load("res://scenes/x_power.tscn")
-@onready var XSpawnPoint : Marker2D = $XSpawnPoint
+@onready var PlatterTop : RigidBody2D = $PlatterContainer/PlatterTop
+@onready var PlatterSFX : AudioStreamPlayer = $PlatterSFX
 
 
 @export var float_speed : int = 1
+@export var platter_hit_sounds : Array[Resource]
 
 
 var move_state = MoveState
@@ -25,10 +25,9 @@ var current_y_speed : int = default_y_speed
 var current_x_speed : int = default_x_speed
 var top_hover_limit : int = -10
 var bottom_hover_limit : int = 10
-var x_spawned : bool = false
 
 
-func _process(delta):
+func _process(_delta):
 	
 	var velocity : Vector2
 	var dampen_factor : int
@@ -52,20 +51,21 @@ func _process(delta):
 	translate(velocity)
 
 
-func spawn_x_power():
-	print_debug("spawining x")
-	var x_spawn = XPower.instantiate()
-	x_spawn.position = XSpawnPoint.position
-	add_child(x_spawn)
-	x_spawned = true
+func play_hit_sound(volume, pitch_low, pitch_high):
+	PlatterSFX.stream = platter_hit_sounds.pick_random()
+	PlatterSFX.volume_db = volume
+	PlatterSFX.pitch_scale = randf_range(pitch_low, pitch_high)
+	PlatterSFX.play()
 
 
 func remove_lid():
+	play_hit_sound(-10, 0.8, 1)
 	PlatterTop.apply_impulse(Vector2(15,-55) * 15)
 	emit_signal("lid_removed")
 
 
 func wiggle():
+	play_hit_sound(-20, 1, 1.5)
 	PlatterTop.apply_impulse(Vector2(15, -15) * 5)
 
 

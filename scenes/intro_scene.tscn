@@ -28,7 +28,7 @@ position_smoothing_enabled = true
 script = ExtResource("3_cjuo0")
 
 [node name="PlatterScene" parent="." instance=ExtResource("2_1o03a")]
-position = Vector2(29, 344)
+position = Vector2(5, 340)
 
 [node name="WiggleTimer" type="Timer" parent="."]
 wait_time = 8.0
@@ -39,5 +39,11 @@ autostart = true
 wait_time = 1.5
 one_shot = true
 
+[node name="ScreenCenter" type="Marker2D" parent="."]
+position = Vector2(8, 56)
+
+[node name="EndSceneTimer" type="Timer" parent="."]
+
 [connection signal="timeout" from="WiggleTimer" to="." method="_on_wiggle_timer_timeout"]
 [connection signal="timeout" from="DialogueTimer" to="." method="_on_dialogue_timer_timeout"]
+[connection signal="timeout" from="EndSceneTimer" to="." method="_on_end_scene_timer_timeout"]

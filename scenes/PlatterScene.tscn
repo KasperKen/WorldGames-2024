@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bohdvcknrsnub"]
+[gd_scene load_steps=9 format=3 uid="uid://bohdvcknrsnub"]
 
 [ext_resource type="Script" path="res://scenes/PlatterScene.gd" id="1_rdkeg"]
 [ext_resource type="Texture2D" uid="uid://ckk75r8p0tsv1" path="res://assets/platter_bottom.png" id="2_8cpli"]
+[ext_resource type="AudioStream" uid="uid://bsb0gbwlnbc1o" path="res://assets/sfx/metal_impact_01.ogg" id="2_phds4"]
 [ext_resource type="Texture2D" uid="uid://bwv3w8myu04ip" path="res://assets/BlueGuy2.png" id="3_ixl11"]
+[ext_resource type="AudioStream" uid="uid://bxgavnamjj1fa" path="res://assets/sfx/metal_impact_02.ogg" id="3_rgfy2"]
 [ext_resource type="Texture2D" uid="uid://0pvrtfe26qe2" path="res://assets/platter_top.png" id="5_38dyv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4xck3"]
@@ -13,34 +15,40 @@ size = Vector2(278, 9)
 
 [node name="PlatterScene" type="Node2D"]
 script = ExtResource("1_rdkeg")
+platter_hit_sounds = Array[Resource]([ExtResource("2_phds4"), ExtResource("3_rgfy2")])
 
-[node name="PlatterBottom" type="StaticBody2D" parent="."]
+[node name="XSpawnPoint" type="Marker2D" parent="."]
+position = Vector2(-38, -35)
+
+[node name="PlatterSFX" type="AudioStreamPlayer" parent="."]
+volume_db = -20.0
+
+[node name="PlatterContainer" type="Node2D" parent="."]
+
+[node name="PlatterBottom" type="StaticBody2D" parent="PlatterContainer"]
 position = Vector2(6, 64)
 
-[node name="PlatterBottomSprite" type="Sprite2D" parent="PlatterBottom"]
+[node name="PlatterBottomSprite" type="Sprite2D" parent="PlatterContainer/PlatterBottom"]
 position = Vector2(6, 0)
 scale = Vector2(4, 4)
 texture = ExtResource("2_8cpli")
 
-[node name="PlatterBottomCollission" type="CollisionShape2D" parent="PlatterBottom"]
+[node name="PlatterBottomCollission" type="CollisionShape2D" parent="PlatterContainer/PlatterBottom"]
 position = Vector2(6, 43.3333)
 shape = SubResource("RectangleShape2D_4xck3")
 
-[node name="BlueGuySprite" type="Sprite2D" parent="."]
+[node name="BlueGuySprite" type="Sprite2D" parent="PlatterContainer"]
 position = Vector2(18, 10)
 texture = ExtResource("3_ixl11")
 
-[node name="PlatterTop" type="RigidBody2D" parent="."]
+[node name="PlatterTop" type="RigidBody2D" parent="PlatterContainer"]
 position = Vector2(14, 3)
 
-[node name="PlatterTopSprite" type="Sprite2D" parent="PlatterTop"]
+[node name="PlatterTopSprite" type="Sprite2D" parent="PlatterContainer/PlatterTop"]
 position = Vector2(-0.666687, 0.666656)
 scale = Vector2(4, 4)
 texture = ExtResource("5_38dyv")
 
-[node name="PlatterTopCollission" type="CollisionShape2D" parent="PlatterTop"]
+[node name="PlatterTopCollission" type="CollisionShape2D" parent="PlatterContainer/PlatterTop"]
 position = Vector2(-1, 90)
 shape = SubResource("RectangleShape2D_3xl6a")
-
-[node name="XSpawnPoint" type="Marker2D" parent="."]
-position = Vector2(-38, -35)
