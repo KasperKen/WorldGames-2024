@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://bohdvcknrsnub"]
 
-[ext_resource type="Script" path="res://scenes/platter/PlatterScene.gd" id="1_rdkeg"]
-[ext_resource type="Texture2D" uid="uid://ckk75r8p0tsv1" path="res://assets/platter_bottom.png" id="2_8cpli"]
-[ext_resource type="AudioStream" uid="uid://bsb0gbwlnbc1o" path="res://assets/sfx/metal_impact_01.ogg" id="2_phds4"]
-[ext_resource type="Texture2D" uid="uid://bwv3w8myu04ip" path="res://assets/BlueGuy2.png" id="3_ixl11"]
-[ext_resource type="AudioStream" uid="uid://bxgavnamjj1fa" path="res://assets/sfx/metal_impact_02.ogg" id="3_rgfy2"]
-[ext_resource type="Texture2D" uid="uid://0pvrtfe26qe2" path="res://assets/platter_top.png" id="5_38dyv"]
+[ext_resource type="Script" path="res://scenes/platter/PlatterScene.gd" id="1_dbecf"]
+[ext_resource type="AudioStream" uid="uid://bsb0gbwlnbc1o" path="res://assets/sfx/metal_impact_01.ogg" id="2_maq0m"]
+[ext_resource type="AudioStream" uid="uid://bxgavnamjj1fa" path="res://assets/sfx/metal_impact_02.ogg" id="3_cpl8n"]
+[ext_resource type="Texture2D" uid="uid://ckk75r8p0tsv1" path="res://assets/platter_bottom.png" id="4_fldkm"]
+[ext_resource type="Texture2D" uid="uid://bwv3w8myu04ip" path="res://assets/BlueGuy2.png" id="5_jvkyc"]
+[ext_resource type="Texture2D" uid="uid://0pvrtfe26qe2" path="res://assets/platter_top.png" id="6_1bbhe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4xck3"]
 size = Vector2(278, 16)
@@ -14,8 +14,8 @@ size = Vector2(278, 16)
 size = Vector2(278, 9)
 
 [node name="PlatterScene" type="Node2D"]
-script = ExtResource("1_rdkeg")
-platter_hit_sounds = Array[Resource]([ExtResource("2_phds4"), ExtResource("3_rgfy2")])
+script = ExtResource("1_dbecf")
+platter_hit_sounds = Array[Resource]([ExtResource("2_maq0m"), ExtResource("3_cpl8n")])
 
 [node name="XSpawnPoint" type="Marker2D" parent="."]
 position = Vector2(-38, -35)
@@ -31,7 +31,7 @@ position = Vector2(6, 64)
 [node name="PlatterBottomSprite" type="Sprite2D" parent="PlatterContainer/PlatterBottom"]
 position = Vector2(6, 0)
 scale = Vector2(4, 4)
-texture = ExtResource("2_8cpli")
+texture = ExtResource("4_fldkm")
 
 [node name="PlatterBottomCollission" type="CollisionShape2D" parent="PlatterContainer/PlatterBottom"]
 position = Vector2(6, 43.3333)
@@ -39,7 +39,7 @@ shape = SubResource("RectangleShape2D_4xck3")
 
 [node name="BlueGuySprite" type="Sprite2D" parent="PlatterContainer"]
 position = Vector2(18, 10)
-texture = ExtResource("3_ixl11")
+texture = ExtResource("5_jvkyc")
 
 [node name="PlatterTop" type="RigidBody2D" parent="PlatterContainer"]
 position = Vector2(14, 3)
@@ -47,7 +47,7 @@ position = Vector2(14, 3)
 [node name="PlatterTopSprite" type="Sprite2D" parent="PlatterContainer/PlatterTop"]
 position = Vector2(-0.666687, 0.666656)
 scale = Vector2(4, 4)
-texture = ExtResource("5_38dyv")
+texture = ExtResource("6_1bbhe")
 
 [node name="PlatterTopCollission" type="CollisionShape2D" parent="PlatterContainer/PlatterTop"]
 position = Vector2(-1, 90)

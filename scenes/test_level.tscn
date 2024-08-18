@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bid47i6dahxvy"]
+
+[ext_resource type="Texture2D" uid="uid://cghhs0x2gafxq" path="res://assets/icon.svg" id="1_qmo52"]
+[ext_resource type="PackedScene" uid="uid://dgn0nmqlckb8m" path="res://scenes/player/player.tscn" id="2_roxey"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gi4ki"]
+size = Vector2(663, 97)
+
+[node name="TestLevel" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(315, 325)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(8, -15)
+scale = Vector2(5.00781, 1)
+texture = ExtResource("1_qmo52")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-2, 3)
+shape = SubResource("RectangleShape2D_gi4ki")
+
+[node name="Player" parent="." instance=ExtResource("2_roxey")]
+position = Vector2(303, 199)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(320, 234)
+zoom = Vector2(2, 2)

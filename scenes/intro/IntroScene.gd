@@ -25,6 +25,7 @@ var x_spawned : bool = false
 var spawned_x_scene
 var end_scene_timer_started = false
 
+
 func _ready():
 	PlatterScene.lid_removed.connect(_on_lid_removed)
 
