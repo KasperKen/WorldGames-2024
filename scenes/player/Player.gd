@@ -15,6 +15,7 @@ enum PlayerState{
 @export var speed : float = 100.0
 
 @onready var PlayerAnimation : AnimationPlayer = $PlayerAnimation
+@onready var Hitbox : Area2D = $Hitbox
 @onready var Hurtbox : CollisionShape2D = $Hurtbox
 @onready var PlayerSprite : Sprite2D = $PlayerSprite
 
@@ -26,9 +27,7 @@ var current_state
 var current_direction : int = 1
 var current_attack
 var attack_finished : bool = true
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var attack_list : Dictionary = {"jab": 30, "cross": 50}
 
 
 func _ready():
@@ -36,21 +35,18 @@ func _ready():
 
 
 func _physics_process(delta):
+	velocity = Vector2(0,0)
 	
 	if not attack_finished: return
 	
-	var direction = Input.get_axis("ui_left", "ui_right")
+	if Input.is_action_pressed("ui_left"): velocity.x -= 1
+	if Input.is_action_pressed("ui_right"): velocity.x += 1
+	if Input.is_action_pressed("ui_up"): velocity.y -= 1
+	if Input.is_action_pressed("ui_down"): velocity.y += 1
 	
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta
+	if velocity.x != 0 or velocity.y != 0:
+		current_state = PlayerState.walking
 
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-	
-	if direction: current_state = PlayerState.walking
-	
 	elif Input.is_action_just_pressed("jab"):
 		current_attack = "jab"
 		current_state = PlayerState.attacking
@@ -65,20 +61,30 @@ func _physics_process(delta):
 		
 		PlayerState.idle:
 			PlayerAnimation.play("idle")
-			velocity.x = 0
 
 		PlayerState.walking:
-			print_debug("walking")
 			PlayerAnimation.play("walk")
-			change_direction(direction)
-			velocity.x = direction * speed
+			change_direction(velocity)
+			velocity = velocity.normalized() * speed
 
 		PlayerState.attacking:
-			attack_finished = false
-			PlayerAnimation.play(current_attack)
+			attack()
 			velocity.x = 0
 
 	move_and_slide()
+
+
+func attack():
+	attack_finished = false
+	PlayerAnimation.play(current_attack)
+
+
+func damage_enemy():
+	var overlapping_bodies : Array = Hitbox.get_overlapping_bodies()
+	var dmg = attack_list[current_attack]
+	for enemy in overlapping_bodies:
+		if enemy.has_method("take_damage"):
+			enemy.take_damage(dmg)
 
 
 func take_damage(dmg):
@@ -92,11 +98,14 @@ func die():
 
 
 func change_direction(dir):
-	if current_direction != dir:
-		Hurtbox.position.x *= -1
-		current_direction = dir
-		PlayerSprite.scale.x = dir
+	var x_dir = dir.x
+	if current_direction == x_dir or x_dir == 0: return
+	scale.x *= -1
+	current_direction = x_dir
 
 
-func _on_player_animation_animation_finished(anim_name):
-	if anim_name in ["jab", "cross"]: attack_finished = true
+func _on_player_animation_animation_finished(animation_name):
+	if animation_name in ["jab", "cross"]:
+		damage_enemy()
+		attack_finished = true
+		

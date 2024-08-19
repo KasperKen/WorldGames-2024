@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://b35rxw0luyjej"]
+[gd_scene load_steps=11 format=3 uid="uid://b35rxw0luyjej"]
 
-[ext_resource type="Script" path="res://TestEnemy.gd" id="1_c8miq"]
+[ext_resource type="Script" path="res://scenes/test_enemy.gd" id="1_xer3e"]
 [ext_resource type="Texture2D" uid="uid://4374yubs11co" path="res://assets/Imanley-Sheet.png" id="2_vryck"]
 
 [sub_resource type="Animation" id="Animation_fibpi"]
@@ -96,9 +96,15 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nlrda"]
 size = Vector2(20, 40)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_domv0"]
+size = Vector2(15, 12)
+
 [node name="TestEnemy" type="CharacterBody2D"]
+y_sort_enabled = true
 position = Vector2(1, 1)
-script = ExtResource("1_c8miq")
+collision_layer = 4
+motion_mode = 1
+script = ExtResource("1_xer3e")
 
 [node name="EnemySprite" type="Sprite2D" parent="."]
 modulate = Color(0.207843, 0.439216, 1, 1)
@@ -116,3 +122,13 @@ libraries = {
 [node name="Hurtbox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 10)
 shape = SubResource("RectangleShape2D_nlrda")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(21, -3)
+shape = SubResource("RectangleShape2D_domv0")
+
+[connection signal="animation_finished" from="EnemyAnimation" to="." method="_on_enemy_animation_animation_finished"]
