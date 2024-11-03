@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bid47i6dahxvy"]
 
-[ext_resource type="Texture2D" uid="uid://cghhs0x2gafxq" path="res://assets/icon.svg" id="1_qmo52"]
+[ext_resource type="Texture2D" uid="uid://cghhs0x2gafxq" path="res://icon.svg" id="1_qmo52"]
 [ext_resource type="PackedScene" uid="uid://dgn0nmqlckb8m" path="res://scenes/player/player.tscn" id="2_roxey"]
 [ext_resource type="PackedScene" uid="uid://b35rxw0luyjej" path="res://scenes/test_enemy.tscn" id="3_u7w4s"]
 
