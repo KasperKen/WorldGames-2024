@@ -3,13 +3,13 @@ extends Node
 
 enum DialogueState{
 	intro,
-	give_x,
-	explain_x
+	give_Y,
+	explain_Y
 }
 
 
 var intro_dialogue_finished : bool = false
-var explain_x_dialogue_finished : bool = false
+var explain_Y_dialogue_finished : bool = false
 var dialogue_state = DialogueState.intro
 
 
@@ -23,8 +23,8 @@ func get_state():
 		DialogueState.intro:
 			return "intro"
 			
-		DialogueState.give_x:
-			return "give_x"
+		DialogueState.give_Y:
+			return "give_Y"
 			
-		DialogueState.explain_x:
-			return "explain_x"
+		DialogueState.explain_Y:
+			return "explain_Y"

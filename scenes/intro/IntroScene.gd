@@ -11,8 +11,8 @@ signal scene_ended
 @onready var PlatterContainer : Node2D = $PlatterScene/PlatterContainer
 @onready var WiggleTimer : Timer = $WiggleTimer
 @onready var DialogueTimer : Timer = $DialogueTimer
-@onready var XPower : PackedScene = load("res://scenes/x_power/x_power.tscn")
-@onready var XSpawnPoint : Marker2D = $PlatterScene/XSpawnPoint
+@onready var YPower : PackedScene = load("res://scenes/Y_power/Y_power.tscn")
+@onready var YSpawnPoint : Marker2D = $PlatterScene/YSpawnPoint
 @onready var ScreenCenter : Marker2D = $ScreenCenter
 @onready var EndSceneTimer : Timer = $EndSceneTimer
 
@@ -21,8 +21,8 @@ var stop_point : int = -10
 var stop_point_reached : bool = false
 var wiggle_count : int = 0
 var entities_despawned : bool = false
-var x_spawned : bool = false
-var spawned_x_scene
+var y_spawned : bool = false
+var spawned_y_scene
 var end_scene_timer_started = false
 
 
@@ -33,21 +33,21 @@ func _ready():
 func _process(_delta):
 	check_stop_point()
 
-	if GlobalDialogue.intro_dialogue_finished and not x_spawned:
-		spawn_x_power()
-		GlobalDialogue.set_state(GlobalDialogue.DialogueState.explain_x)
+	if GlobalDialogue.intro_dialogue_finished and not y_spawned:
+		spawn_y_power()
+		GlobalDialogue.set_state(GlobalDialogue.DialogueState.explain_Y)
 		DialogueTimer.start()
 
-	if GlobalDialogue.explain_x_dialogue_finished and not entities_despawned:
+	if GlobalDialogue.explain_Y_dialogue_finished and not entities_despawned:
 		despawn_platter()
-		scale_x(3, 3, 2.0)
-		var x_speed = 1
+		scale_y(3, 3, 2.0)
+		var y_speed = 1
 		var target_position = ScreenCenter.position
-		var x_direction : Vector2 = (target_position - spawned_x_scene.position).normalized()
-		var x_velocity = x_direction * x_speed
+		var y_direction : Vector2 = (target_position - spawned_y_scene.position).normalized()
+		var y_velocity = y_direction * y_speed
 
-		if spawned_x_scene.position.distance_to(target_position) > 1:
-			spawned_x_scene.position += x_velocity
+		if spawned_y_scene.position.distance_to(target_position) > 1:
+			spawned_y_scene.position += y_velocity
 
 		else:
 			start_end_scene_timer() 
@@ -65,11 +65,11 @@ func check_stop_point():
 		stop_point_reached = true
 
 
-func spawn_x_power():
-	spawned_x_scene = XPower.instantiate()
-	spawned_x_scene.position = XSpawnPoint.position
-	PlatterScene.add_child(spawned_x_scene)
-	x_spawned = true
+func spawn_y_power():
+	spawned_y_scene = YPower.instantiate()
+	spawned_y_scene.position = YSpawnPoint.position
+	PlatterScene.add_child(spawned_y_scene)
+	y_spawned = true
 
 
 func despawn_platter():
@@ -77,9 +77,9 @@ func despawn_platter():
 	tween.tween_property(PlatterContainer, "modulate", Color.TRANSPARENT, 1.0)
 
 
-func scale_x(x_size, y_size, time):
+func scale_y(x_size, y_size, time):
 	var tween = create_tween()
-	tween.tween_property(spawned_x_scene, "scale", Vector2(x_size, y_size), time)
+	tween.tween_property(spawned_y_scene, "scale", Vector2(x_size, y_size), time)
 
 
 func start_end_scene_timer():
@@ -112,6 +112,6 @@ func _on_dialogue_timer_timeout():
 
 func _on_end_scene_timer_timeout():
 	var tween = create_tween()
-	tween.tween_property(spawned_x_scene, "modulate", Color.TRANSPARENT, 1.0)
+	tween.tween_property(spawned_y_scene, "modulate", Color.TRANSPARENT, 1.0)
 	await(tween.finished)
 	#end scene

@@ -17,7 +17,7 @@ size = Vector2(278, 9)
 script = ExtResource("1_dbecf")
 platter_hit_sounds = Array[Resource]([ExtResource("2_maq0m"), ExtResource("3_cpl8n")])
 
-[node name="XSpawnPoint" type="Marker2D" parent="."]
+[node name="YSpawnPoint" type="Marker2D" parent="."]
 position = Vector2(-38, -35)
 
 [node name="PlatterSFX" type="AudioStreamPlayer" parent="."]

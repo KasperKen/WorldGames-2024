@@ -16,13 +16,13 @@ set GlobalDialogue.intro_dialogue_finished = true
 => END
 
 
-~ explain_x
+~ explain_Y
 
-Katering: This is the ancient power of the X!
-Katering: Weilders of the X have built and toppled nations.
+Katering: This is the ancient power of the Y!
+Katering: Weilders of the Y have built and toppled nations.
 Katering: With this power I believe you will succeed on this quest.
 Katering: I must be going now. Good luck on your quest.
 
-set GlobalDialogue.explain_x_dialogue_finished = true
+set GlobalDialogue.explain_Y_dialogue_finished = true
 
 => END
