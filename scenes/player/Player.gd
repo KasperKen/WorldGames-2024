@@ -89,7 +89,7 @@ func damage_enemy():
 
 func take_damage(dmg):
 	health -= dmg
-	if health >= 0: die()
+	if health <= 0: die()
 
 
 func die():

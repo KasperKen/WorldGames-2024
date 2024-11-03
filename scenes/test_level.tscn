@@ -39,6 +39,7 @@ y_sort_enabled = true
 [node name="Player" parent="PlayArea" instance=ExtResource("2_roxey")]
 y_sort_enabled = false
 position = Vector2(290, 184)
+health = 9999.0
 
 [node name="TestEnemy" parent="PlayArea" instance=ExtResource("3_u7w4s")]
 y_sort_enabled = false
