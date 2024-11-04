@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bid47i6dahxvy"]
+[gd_scene load_steps=8 format=3 uid="uid://bid47i6dahxvy"]
 
-[ext_resource type="Texture2D" uid="uid://cghhs0x2gafxq" path="res://icon.svg" id="1_qmo52"]
+[ext_resource type="Texture2D" uid="uid://051krqnlyssc" path="res://assets/Ring_Top.png" id="1_0xyda"]
 [ext_resource type="PackedScene" uid="uid://dgn0nmqlckb8m" path="res://scenes/player/player.tscn" id="2_roxey"]
 [ext_resource type="PackedScene" uid="uid://b35rxw0luyjej" path="res://scenes/test_enemy.tscn" id="3_u7w4s"]
+[ext_resource type="Texture2D" uid="uid://dv6urk8sdxdlu" path="res://assets/Ring_Bottom.png" id="4_rmofk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gi4ki"]
 size = Vector2(663, 97)
@@ -10,36 +11,47 @@ size = Vector2(663, 97)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lqsyh"]
 size = Vector2(616, 58)
 
-[node name="TestLevel" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b3uqa"]
+size = Vector2(76, 229)
 
-[node name="TestFloor" type="StaticBody2D" parent="."]
-position = Vector2(315, 325)
-collision_mask = 7
-
-[node name="TestFloorSprite" type="Sprite2D" parent="TestFloor"]
-position = Vector2(10, -70)
-scale = Vector2(5.00781, 1)
-texture = ExtResource("1_qmo52")
-
-[node name="TestFloorCollision" type="CollisionShape2D" parent="TestFloor"]
-position = Vector2(-8, 39)
-shape = SubResource("RectangleShape2D_gi4ki")
-
-[node name="TestFloor CollissionTop" type="CollisionShape2D" parent="TestFloor"]
-position = Vector2(13, -189)
-shape = SubResource("RectangleShape2D_lqsyh")
+[node name="BoxingRing" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(320, 234)
-zoom = Vector2(2, 2)
 
-[node name="PlayArea" type="Node2D" parent="."]
-y_sort_enabled = true
+[node name="RingSprite" type="Sprite2D" parent="."]
+position = Vector2(328, 276)
+texture = ExtResource("1_0xyda")
 
-[node name="Player" parent="PlayArea" instance=ExtResource("2_roxey")]
+[node name="Player" parent="." instance=ExtResource("2_roxey")]
 y_sort_enabled = false
-position = Vector2(290, 184)
+position = Vector2(441, 174)
+health = 9999.0
 
-[node name="TestEnemy" parent="PlayArea" instance=ExtResource("3_u7w4s")]
+[node name="TestEnemy" parent="." instance=ExtResource("3_u7w4s")]
 y_sort_enabled = false
-position = Vector2(425, 228)
+position = Vector2(213, 327)
+
+[node name="BottomRopesSprite" type="Sprite2D" parent="."]
+position = Vector2(328, 353)
+texture = ExtResource("4_rmofk")
+
+[node name="RingCollision" type="StaticBody2D" parent="."]
+position = Vector2(332, 380)
+
+[node name="RingCollisionBottom" type="CollisionShape2D" parent="RingCollision"]
+position = Vector2(-11, 27)
+shape = SubResource("RectangleShape2D_gi4ki")
+
+[node name="RingCollissionTop" type="CollisionShape2D" parent="RingCollision"]
+position = Vector2(11, -275)
+shape = SubResource("RectangleShape2D_lqsyh")
+
+[node name="RingCollissionLeft" type="CollisionShape2D" parent="RingCollision"]
+position = Vector2(-171, -128)
+scale = Vector2(1, 1.2)
+shape = SubResource("RectangleShape2D_b3uqa")
+
+[node name="RingCollissionRight" type="CollisionShape2D" parent="RingCollision"]
+position = Vector2(160, -132)
+shape = SubResource("RectangleShape2D_b3uqa")

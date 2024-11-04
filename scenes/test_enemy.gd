@@ -34,22 +34,38 @@ func _ready():
 func _physics_process(delta):
 	velocity = Vector2(0,0)
 	
+	if is_player_overlapping():
+		set_state(EnemyState.attacking)
+	else:
+		attack_finished = true
+		set_state(EnemyState.chasing)
+				
 	match enemy_state:
 		
 		EnemyState.chasing:
+			print_debug("chasing")
 			var target_player = players.pick_random()
 			var direction = global_position.direction_to(target_player.global_position)
 			direction.x = format_x_vector(direction.x)
+			velocity = direction * speed
 			change_direction(direction)
-			if (target_player.global_position - global_position).length() > 30: 
-				velocity = direction * speed
-				EnemyAnimation.play("walk")
-			else: enemy_state = EnemyState.attacking
+			EnemyAnimation.play("walk")
+			move_and_collide(velocity)
 			
 		EnemyState.attacking:
+			print_debug("attacking")
 			if attack_finished: attack()
-			
-	move_and_collide(velocity)
+
+
+func set_state(new_state):
+	enemy_state = new_state
+
+
+func is_player_overlapping():
+	for player in players:
+		if player in Hitbox.get_overlapping_bodies():
+			return true
+	return false
 
 
 func attack():
